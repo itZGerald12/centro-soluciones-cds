@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>CDS Centro de Soluciones - Móvil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- html2canvas para captura PNG nativa -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg: #eef2f6;
+      --white: #ffffff;
+      --teal: #002eff;
+      --teal-d: #0024cc;
+      --teal-l: #e2f3f6;
+      --navy: #002eff;
+      --green: #0d4d28;
+      --green-l: #e9f7ef;
+      --red: #c0392b;
+      --red-l: #fce8e6;
+      --gold: #FF3D00;
+      --gold-l: #fef5e4;
+      --blue: #1f6fa3;
+      --blue-l: #e8f4fb;
+      --orange: #ca6f1e;
+      --orange-l: #fdf2e9;
+      --text: #1e3c17;
+      --muted: #628594;
+      --border: #ccdde5;
+      --shadow: 0 4px 12px rgba(12, 55, 75, 0.08);
+      --radius: 18px;
+      --fh: 'Outfit', sans-serif;
+      --fb: 'Figtree', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: var(--fb);
+      padding: 16px 12px 32px;
+      min-height: 100vh;
+    }
+
+    /* Header móvil minimal */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--navy);
+      padding: 8px 16px;
+      border-radius: 60px;
+      box-shadow: var(--shadow);
+    }
+    .logo-area img {
+      height: 32px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .logo-area h1 {
+      font-family: var(--fh);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.3px;
+    }
+    .btn-export {
+      background: #2e4053;
+      border: none;
+      border-radius: 60px;
+      padding: 10px 20px;
+      font-family: var(--fh);
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn-export:active {
+      transform: scale(0.96);
+      background: #1f2f3f;
+    }
+    .btn-export svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* contenedor principal donde se captura el PNG */
+    .dashboard-mobile {
+      max-width: 600px;
+      margin: 0 auto;
+      background: transparent;
+    }
+
+    /* cards estilo igual que el original pero adaptadas a móvil */
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .row-g2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 540px) {
+      .row-g2 {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 18px 16px;
+      transition: all 0.2s;
+      backdrop-filter: blur(0px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* fondos sutiles como en el original */
+    #card-ind-mobile::before, #card-epa-mobile::before, #card-plazos-mobile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.12;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #card-epa-mobile::before { background-image: url('Fondo2.jpg'); }
+    #card-plazos-mobile::before { background-image: url('Fondo3.jpg'); }
+    #card-ind-mobile::before { background-image: url('Fondo1.jpg'); }
+
+    .clabel {
+      font-family: var(--fh);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 2;
+    }
+    .clabel::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+    .card-body {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* EPA */
+    .epa-n {
+      font-family: var(--fh);
+      font-size: 4.2rem;
+      font-weight: 800;
+      color: #002eff;
+      line-height: 1;
+      text-align: center;
+      margin: 6px 0 4px;
+    }
+    .epa-s {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .pills {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .pm { background: var(--teal-l); color: var(--teal); }
+    .pc { background: var(--green-l); color: var(--green); }
+
+    /* plazos */
+    .pleg {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 20px;
+      font-size: 0.7rem;
+      justify-content: center;
+    }
+    .pleg span { display: flex; align-items: center; gap: 4px; }
+    .ld { width: 8px; height: 8px; border-radius: 50%; }
+    .prow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.7rem;
+    }
+    .pname { width: 130px; flex-shrink: 0; font-weight: 500; }
+    .btrack { flex: 1; height: 8px; background: #e5edf2; border-radius: 6px; overflow: hidden; }
+    .bfill { height: 100%; border-radius: 6px; transition: width 0.2s; }
+    .bval { width: 38px; text-align: right; font-weight: 700; font-size: 0.68rem; }
+
+    /* contactabilidad */
+    .cmrow {
+      background: var(--teal-l);
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .cg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cc {
+      background: var(--teal-l);
+      border-radius: 14px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .ccn { font-size: 0.6rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+    .ccb { font-family: var(--fh); font-size: 1.7rem; font-weight: 800; color: var(--teal); }
+    .ccc { font-size: 0.65rem; font-weight: 700; margin-top: 4px; }
+
+    /* tablas responsivas */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 6px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.7rem;
+      min-width: 380px;
+    }
+    thead th {
+      font-family: var(--fh);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 6px;
+      border-bottom: 2px solid var(--border);
+      text-align: right;
+    }
+    thead th:first-child { text-align: left; }
+    tbody td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #f0f5f8;
+      text-align: right;
+    }
+    tbody td:first-child { text-align: left; font-weight: 600; }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+    .ind-tbl th, .ind-tbl td { text-align: center; }
+    .ind-tbl th:first-child, .ind-tbl td:first-child { text-align: left; }
+
+    /* bloques de comentarios */
+    .card-comment {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    /* footer sync */
+    .sync-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.65rem;
+      color: #7e9aa8;
+      background: rgba(0, 46, 255, 0.05);
+      padding: 8px 12px;
+      border-radius: 30px;
+      display: inline-block;
+      width: auto;
+      backdrop-filter: blur(4px);
+    }
+    .footer-sync {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    /* loading para export */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .loading-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .spinner {
+      background: white;
+      padding: 20px 28px;
+      border-radius: 48px;
+      font-weight: 700;
+      font-family: var(--fh);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+  </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#002eff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    Generando PNG...
+  </div>
+</div>
+
+<div class="dashboard-mobile" id="captureMobile">
+  <div class="app-header">
+    <div class="logo-area">
+      <!-- placeholder visual de logo (mismo estilo) -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <h1>CDS · Centro de Soluciones 2026</h1>
+    </div>
+    <button class="btn-export" id="exportPngBtn">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Exportar PNG
+    </button>
+  </div>
+
+  <!-- bloque EPA + PLAZOS -->
+  <div class="row-g2" style="margin-bottom: 14px;">
+    <!-- EPA -->
+    <div class="card" id="card-epa-mobile">
+      <div class="clabel">EPA Global</div>
+      <div class="card-body">
+        <div class="epa-n" id="m-epa-val">47</div>
+        <div class="epa-s">EPA <span id="m-period">Abril</span></div>
+        <div class="pills">
+          <span class="pill pm">Meta: <span id="m-meta">45</span></span>
+          <span class="pill pc">Cumplimiento: <span id="m-cump">104</span>%</span>
+        </div>
+      </div>
+    </div>
+    <!-- PLAZOS -->
+    <div class="card" id="card-plazos-mobile">
+      <div class="clabel">Plazos</div>
+      <div class="card-body">
+        <div class="pleg">
+          <span><span class="ld" style="background:#42E8B4"></span>Óptimo</span>
+          <span><span class="ld" style="background:#FF3D00"></span>Legal</span>
+        </div>
+        <div id="m-plazos-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contactabilidad y Actividad -->
+  <div class="row-g2" style="margin-bottom: 14px;">
+    <div class="card" id="card-contact-mobile">
+      <div class="clabel">Contactabilidad</div>
+      <div class="card-body">
+        <div class="cmrow">Meta: <strong id="m-cmeta">75%</strong> <span style="font-size:0.6rem;">Contactab. ÷ Meta</span></div>
+        <div class="cg" id="m-contact-grid"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="clabel">Actividad — Acumulada vs Forecast</div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table id="m-act-table">
+            <thead id="m-act-head"></thead>
+            <tbody id="m-act-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicadores full width -->
+  <div class="row" style="margin-bottom: 14px;">
+    <div class="card" id="card-ind-mobile">
+      <div class="clabel">Indicadores por BACK</div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table class="ind-tbl" id="m-ind-table">
+            <thead id="m-ind-head"></thead>
+            <tbody id="m-ind-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- comentarios operacionales + mejoras -->
+  <div class="row-g2">
+    <div class="card">
+      <div class="clabel">Indicadores Operacionales</div>
+      <div id="m-op-comment" class="card-comment"></div>
+    </div>
+    <div class="card">
+      <div class="clabel">Oportunidades de Mejora</div>
+      <div id="m-mej-comment" class="card-comment"></div>
+    </div>
+  </div>
+
+  <div class="footer-sync">
+    <div class="sync-note">🔄 Datos sincronizados en tiempo real con el archivo de origen</div>
+  </div>
+</div>
+
+<script>
+  // ======================== DATA STRUCTURE (idéntica al HTML original pero en entorno móvil) ===================
+  let D = {
+    epa: { v: 47, m: 45, p: 'Abril' },
+    plazos: [
+      { l: 'BACK Multiskill (72h)', o: 100, g: 100 },
+      { l: 'BACK Digital (24h)',    o: 100, g: 100 },
+      { l: 'BACK Konecta',         o: 85,  g: 100 }
+    ],
+    cm: 75,
+    ci: [
+      { l: 'BACK Multiskill', v: 69 },
+      { l: 'BACK Digital',    v: 55 },
+      { l: 'BACK Cuarto Niv.', v: 59 },
+      { l: 'BACK Konecta',    v: 73 }
+    ],
+    ah: ['Feb', 'Mar', 'Abr', 'Fore.'],
+    act: [
+      { p: 'BACK Multiskill', v: [16690, 18575, 9711, 10617], c: 'br' },
+      { p: 'BACK Digital',    v: [7331, 7135, 3229, 3120],    c: 'bg' },
+      { p: 'BACK Cuarto Niv.', v: [3913, 5797, 2308, 2420],    c: 'br' },
+      { p: 'BACK Konecta',    v: [2918, 3471, 1460, 1763],    c: 'br' }
+    ],
+    ih: ['Q1 2025', 'Q1 2026', 'Abril 2026', 'Meta 2026'],
+    ind: [
+      { l: 'BACK 1', v: ['', '', '', ''], c: 'auto' },
+      { l: 'BACK 2', v: ['', '', '', ''], c: 'auto' },
+      { l: 'BACK 3', v: ['', '', '', ''], c: 'auto' }
+    ],
+    comments: { op: '', mej: '' },
+    styles: {
+      act: [
+        { size: '0.72rem', bold: false, color: '#17303c' },
+        { size: '0.72rem', bold: false, color: '#17303c' },
+        { size: '0.72rem', bold: false, color: '#17303c' },
+        { size: '0.72rem', bold: false, color: '#17303c' }
+      ],
+      ind: [
+        { size: '0.72rem', bold: false, color: '#17303c' },
+        { size: '0.72rem', bold: false, color: '#17303c' },
+        { size: '0.72rem', bold: false, color: '#17303c' }
+      ]
+    },
+    blockStyles: {
+      epa: { color: '#002eff', size: '5rem', bold: true },
+      plazos: { color: '#17303c', size: '0.72rem', bold: false },
+      contact: { color: '#1a7a8c', size: '0.72rem', bold: false }
+    }
+  };
+
+  const COLORS_MAP = {
+    'bg': { bg: '#e9f7ef', fg: '#42E8B4', lbl: 'Verde' },
+    'br': { bg: '#fce8e6', fg: '#c0392b', lbl: 'Rojo' },
+    'bo': { bg: '#fef5e4', fg: '#d68910', lbl: 'Dorado' },
+    'bt': { bg: '#e2f3f6', fg: '#1a7a8c', lbl: 'Teal' },
+    'bb': { bg: '#e8f4fb', fg: '#1f6fa3', lbl: 'Azul' },
+    'bn': { bg: '#fdf2e9', fg: '#ca6f1e', lbl: 'Naranja' },
+    'bx': { bg: '#f0f4f8', fg: '#628594', lbl: 'Gris' },
+    'auto': { lbl: 'Auto-semáforo' }
+  };
+
+  function badgeStyle(key, numVal) {
+    if (key === 'auto') {
+      const n = parseFloat(numVal);
+      if (!isNaN(n)) {
+        const k = n >= 100 ? 'bg' : (n >= 80 ? 'bo' : 'br');
+        return `background:${COLORS_MAP[k].bg};color:${COLORS_MAP[k].fg}`;
+      }
+      return `background:${COLORS_MAP['bx'].bg};color:${COLORS_MAP['bx'].fg}`;
+    }
+    const c = COLORS_MAP[key] || COLORS_MAP['bx'];
+    return `background:${c.bg};color:${c.fg}`;
+  }
+
+  // funciones de render móvil
+  function renderMobile() {
+    renderEPAMobile();
+    renderPlazosMobile();
+    renderContactMobile();
+    renderActMobile();
+    renderIndMobile();
+    renderCommentsMobile();
+  }
+
+  function renderEPAMobile() {
+    const st = D.blockStyles.epa;
+    const epaEl = document.getElementById('m-epa-val');
+    if (epaEl) {
+      epaEl.textContent = D.epa.v;
+      epaEl.style.color = st.color;
+      epaEl.style.fontSize = st.size;
+      epaEl.style.fontWeight = st.bold ? '800' : '400';
+    }
+    document.getElementById('m-meta').textContent = D.epa.m;
+    document.getElementById('m-period').textContent = D.epa.p;
+    const c = D.epa.m > 0 ? Math.round((D.epa.v / D.epa.m) * 100) : 0;
+    document.getElementById('m-cump').textContent = c;
+  }
+
+  function renderPlazosMobile() {
+    const st = D.blockStyles.plazos;
+    const rowStyle = `font-size:${st.size};font-weight:${st.bold ? '700' : '400'};color:${st.color}`;
+    const container = document.getElementById('m-plazos-container');
+    if (!container) return;
+    container.innerHTML = D.plazos.map(p => `
+      <div class="prow" style="${rowStyle}">
+        <span class="pname">${p.l}</span>
+        <div class="btrack"><div class="bfill" style="width:${p.o}%;background:#42E8B4"></div></div>
+        <span class="bval" style="color:#229954">${p.o}%</span>
+        <div class="btrack"><div class="bfill" style="width:${p.g}%;background:#FF3D00"></div></div>
+        <span class="bval" style="color:#FF3D00">${p.g}%</span>
+      </div>
+    `).join('');
+  }
+
+  function renderContactMobile() {
+    const st = D.blockStyles.contact;
+    const rowStyle = `font-size:${st.size};font-weight:${st.bold ? '700' : '400'};color:${st.color}`;
+    document.getElementById('m-cmeta').textContent = D.cm + '%';
+    const grid = document.getElementById('m-contact-grid');
+    if (grid) {
+      grid.innerHTML = D.ci.map(c => {
+        const cu = D.cm > 0 ? Math.round((c.v / D.cm) * 100) : 0;
+        const col = cu >= 100 ? '#229954' : (cu >= 80 ? '#FF3D00' : '#c0392b');
+        return `<div class="cc" style="${rowStyle}">
+          <div class="ccn">${c.l}</div>
+          <div class="ccb">${c.v}%</div>
+          <div class="ccc" style="color:${col}">★ ${cu}%</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  function renderActMobile() {
+    const thead = document.getElementById('m-act-head');
+    if (thead) {
+      thead.innerHTML = `<tr><th>Producto</th>${D.ah.map(h => `<th>${h}</th>`).join('')}<th>%</th></tr>`;
+    }
+    const tbody = document.getElementById('m-act-body');
+    if (!tbody) return;
+    tbody.innerHTML = D.act.map((r, i) => {
+      const c3 = parseFloat(r.v[2]) || 0, fo = parseFloat(r.v[3]) || 0;
+      const pct = fo > 0 ? Math.round(((c3 - fo) / fo) * 100) : null;
+      const ps = pct !== null ? (pct > 0 ? '+' : '') + pct + '%' : '—';
+      const st = D.styles.act[i] || { size: '0.72rem', bold: false, color: '#17303c' };
+      const rowStyle = `font-size:${st.size};font-weight:${st.bold ? '700' : '400'};color:${st.color}`;
+      return `<tr style="${rowStyle}">
+        <td>${r.p}</td>
+        ${r.v.map(v => `<td>${typeof v === 'number' && v ? v.toLocaleString('es-AR') : (v || '—')}</td>`).join('')}
+        <td><span class="badge" style="${badgeStyle(r.c, pct)};color:inherit">${ps}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderIndMobile() {
+    const thead = document.getElementById('m-ind-head');
+    if (thead) {
+      thead.innerHTML = `<tr><th>BACK</th>${D.ih.map(h => `<th>${h}</th>`).join('')}<th>% Cump</th></tr>`;
+    }
+    const tbody = document.getElementById('m-ind-body');
+    if (!tbody) return;
+    tbody.innerHTML = D.ind.map((r, i) => {
+      const c3 = parseFloat(r.v[2]), me = parseFloat(r.v[3]);
+      let cs = '—', cpct = null;
+      if (!isNaN(c3) && !isNaN(me) && me > 0) { cpct = Math.round((c3 / me) * 100); cs = cpct + '%'; }
+      const st = D.styles.ind[i] || { size: '0.72rem', bold: false, color: '#17303c' };
+      const rowStyle = `font-size:${st.size};font-weight:${st.bold ? '700' : '400'};color:${st.color}`;
+      return `<tr style="${rowStyle}">
+        <td>${r.l}</td>
+        ${r.v.map(v => `<td>${v || '—'}</td>`).join('')}
+        <td><span class="badge" style="${badgeStyle(r.c, cpct)};color:inherit">${cs}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderCommentsMobile() {
+    const opDiv = document.getElementById('m-op-comment');
+    const mejDiv = document.getElementById('m-mej-comment');
+    if (opDiv) opDiv.textContent = D.comments.op || '—';
+    if (mejDiv) mejDiv.textContent = D.comments.mej || '—';
+  }
+
+  // =================== CONEXIÓN CON EL HTML ORIGINAL (SIMULACIÓN TIEMPO REAL) ===================
+  // Detecta cambios desde el archivo fuente: se conecta al localStorage como puente
+  // Además, si se edita en la version desktop original, la app móvil capta los cambios automáticamente.
+  function startRealTimeSync() {
+    // Intenta cargar desde localStorage si existe clave "cds_live_data"
+    function syncFromExternal() {
+      const saved = localStorage.getItem('cds_mobile_bridge');
+      if (saved) {
+        try {
+          const externalData = JSON.parse(saved);
+          // fusionar datos preservando estructura
+          if (externalData.epa) D.epa = { ...D.epa, ...externalData.epa };
+          if (externalData.plazos) D.plazos = JSON.parse(JSON.stringify(externalData.plazos));
+          if (typeof externalData.cm === 'number') D.cm = externalData.cm;
+          if (externalData.ci) D.ci = JSON.parse(JSON.stringify(externalData.ci));
+          if (externalData.ah) D.ah = [...externalData.ah];
+          if (externalData.act) D.act = JSON.parse(JSON.stringify(externalData.act));
+          if (externalData.ih) D.ih = [...externalData.ih];
+          if (externalData.ind) D.ind = JSON.parse(JSON.stringify(externalData.ind));
+          if (externalData.comments) D.comments = { ...D.comments, ...externalData.comments };
+          if (externalData.styles) {
+            if (externalData.styles.act) D.styles.act = externalData.styles.act;
+            if (externalData.styles.ind) D.styles.ind = externalData.styles.ind;
+          }
+          if (externalData.blockStyles) D.blockStyles = { ...D.blockStyles, ...externalData.blockStyles };
+          renderMobile();
+        } catch(e) { console.warn(e); }
+      }
+    }
+    // Escuchar cambios en localStorage (puede venir desde el HTML de escritorio si inyecta el bridge)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cds_mobile_bridge') {
+        syncFromExternal();
+      }
+    });
+    // Sondear cada 1.5 segundos por si hubo actualización desde el archivo fuente (bridge activo)
+    setInterval(() => {
+      syncFromExternal();
+    }, 1500);
+    // Primera sincronización inicial
+    syncFromExternal();
+  }
+
+  // ========== EXPORTAR COMO PNG (html2canvas) ==========
+  const exportBtn = document.getElementById('exportPngBtn');
+  const loadingOverlay = document.getElementById('loadingOverlay');
+
+  async function exportToPNG() {
+    const element = document.getElementById('captureMobile');
+    if (!element) return;
+    loadingOverlay.classList.add('active');
+    try {
+      // pequeña pausa para que termine render
+      await new Promise(r => setTimeout(r, 80));
+      const canvas = await html2canvas(element, {
+        scale: 2.5,
+        backgroundColor: '#eef2f6',
+        logging: false,
+        useCORS: false,
+        allowTaint: false,
+      });
+      const link = document.createElement('a');
+      const date = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+      link.download = `CDS_Report_${date}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.error('error PNG', err);
+      alert('Error al generar la imagen, reintente');
+    } finally {
+      loadingOverlay.classList.remove('active');
+    }
+  }
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', exportToPNG);
+  }
+
+  // Inicializamos y arrancamos escucha
+  renderMobile();
+  startRealTimeSync();
+
+  // opcional: también exponer función global para que el HTML original pueda notificar cambios vía localStorage puente
+  window.notifyDataUpdate = function(updatedFullData) {
+    try {
+      if (updatedFullData) {
+        localStorage.setItem('cds_mobile_bridge', JSON.stringify(updatedFullData));
+      } else {
+        // si no se provee datos, usar D actual
+        localStorage.setItem('cds_mobile_bridge', JSON.stringify(D));
+      }
+      renderMobile();
+    } catch(e) {}
+  };
+  // cada vez que cambian los datos localmente en este entorno (si hubiera algún modo editor, pero no lo hay)
+  // pero igual lo mantenemos para interoperatividad.
+  setInterval(() => {
+    // emitir snapshot cada 4s por si otra pestaña consulta
+    localStorage.setItem('cds_mobile_bridge', JSON.stringify(D));
+  }, 4000);
+</script>
+</body>
+</html>
